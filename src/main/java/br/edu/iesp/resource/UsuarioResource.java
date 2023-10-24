@@ -1,7 +1,7 @@
 package br.edu.iesp.resource;
 
-import br.edu.iesp.model.Produto;
-import br.edu.iesp.service.ProdutoService;
+import br.edu.iesp.model.Usuario;
+import br.edu.iesp.service.UsuarioService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -9,32 +9,32 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
-@Path("/produto")
-public class ProdutoResource {
+@Path("/usuario")
+public class UsuarioResource {
     @Inject
-    ProdutoService produtoService;
+    UsuarioService service;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Produto> listar() {
-      return produtoService.listar();
+    public List<Usuario> listar() {
+      return service.listar();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response incluir(Produto produto) {
+    public Response incluir(Usuario usuario) {
         return Response
-                .ok(produtoService.salvar(produto))
+                .ok(service.salvar(usuario))
                 .build();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response atualizar(Produto produto){
+    public Response atualizar(Usuario usuario){
         return Response
-                .ok(produtoService.atualizar(produto))
+                .ok(service.atualizar(usuario))
                 .build();
     }
 
@@ -42,8 +42,17 @@ public class ProdutoResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") Long id){
-        produtoService.excluir(id);
+        service.excluir(id);
         return Response.ok().build();
+    }
+    @GET
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response consultar(@PathParam("id") Long id){
+        return Response
+                .ok(service.consultar(id))
+                .build();
     }
 
 }
